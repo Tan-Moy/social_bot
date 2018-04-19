@@ -93,6 +93,7 @@ const random_activity = () =>{
 	retweet(random_topic);
 	favorite(random_topic);
 	follow(random_topic);
-}
 
-setInterval(random_activity,1.08e7);
+	//schedule repeat
+	setTimeout(random_activity,10800000);
+}
