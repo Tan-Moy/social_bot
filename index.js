@@ -82,18 +82,25 @@ const follow = (q) =>{
 }
 
 
-//UNLEASH THE BOT
+//RANDOM CHOOSER AND SCHEDULER
 const random_activity = () =>{
+	
 	//Choose topics randomly
 	const topics = ['#100DaysOfCode','#IOT','#DataScience','#MachineLearning','#freecodecamp','#Reactjs','#301daysofcode','#cssgrid','#CSS3'];
 	const random_topic = topics[Math.floor(Math.random() * topics.length)];
 	console.log(random_topic);
 
-	// call all functions
-	retweet(random_topic);
-	favorite(random_topic);
-	follow(random_topic);
+	try{
+		// call all functions
+		retweet(random_topic);
+		favorite(random_topic);
+		follow(random_topic);
+	} catch(err) {
+		console.log(err);
+	}
 
-	//schedule repeat
-	setTimeout(random_activity,10800000);
+	setTimeout(random_activity,14400000);
 }
+
+//UNLEASH THE BOT
+random_activity();
