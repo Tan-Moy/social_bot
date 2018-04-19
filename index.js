@@ -99,7 +99,7 @@ const random_activity = () =>{
 		console.log(err);
 	}
 
-	// setTimeout(random_activity,14400000);
+	setTimeout(random_activity,14400000);
 }
 
 //UNLEASH THE BOT
