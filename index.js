@@ -1,11 +1,13 @@
-// Import dependencies
+// IMPORT DEPENDENCIES
 const twit = require('twit');
 const config = require('./config.js')
 
-//Configure
+
+//CONFIGURE
 const T = new twit(config);
 
-//Retweet
+
+//RETWEET
 const retweet = (q) =>{
 	const params = {
 		q: q,
@@ -17,11 +19,11 @@ const retweet = (q) =>{
 	T.get('search/tweets', params, function(err, data) {
   		if(!err){
   			//grab id
-  			let usrId = data.statuses.length < 10 ? data.statuses[0].id_str : data.statuses[Math.floor(Math.random() * 10)].id_str;
-  			// console.log(usrId)
+  			let postId = data.statuses.length < 10 ? data.statuses[0].id_str : data.statuses[Math.floor(Math.random() * 10)].id_str;
+  			// console.log(postId)
 
   			//retweet
-  			T.post('statuses/retweet/:id', { id: usrId}, function (err, data, response) {
+  			T.post('statuses/retweet/:id', { id: postId}, function (err, data, response) {
   				if(response){console.log('retweet successfull')};
   				if(err){console.log(err)};
 			})
@@ -29,7 +31,8 @@ const retweet = (q) =>{
 	})
 }
 
-//Favorite
+
+//FAVORITE
 const favorite = (q) =>{
 	const params = {
 		q: q,
@@ -41,11 +44,11 @@ const favorite = (q) =>{
 	T.get('search/tweets', params, function(err, data) {
   		if(!err){
   			//grab id
-  			let usrId = data.statuses.length < 10 ? data.statuses[0].id_str : data.statuses[Math.floor(Math.random() * 10)].id_str;
-  			// console.log(usrId)
+  			let postId = data.statuses.length < 10 ? data.statuses[0].id_str : data.statuses[Math.floor(Math.random() * 10)].id_str;
+  			// console.log(postId)
 
   			//like
-  			T.post('favorites/create', { id: usrId}, function (err, data, response) {
+  			T.post('favorites/create', { id: postId}, function (err, data, response) {
   				if(response){console.log('Favorited successfully')};
   				if(err){console.log(err)};
 			})
@@ -53,14 +56,43 @@ const favorite = (q) =>{
 	})
 }
 
-//Follow
+
+//FOLLOW
+const follow = (q) =>{
+	const params = {
+		q: q,
+		result_type:'recent',
+		lang:'en',
+		count:'10'
+	}
+
+	T.get('search/tweets', params, function(err, data,response) {
+  		if(!err){
+  			//grab userid
+  			let usrId = data.statuses.length < 10 ? data.statuses[0].user.id_str : data.statuses[Math.floor(Math.random() * 10)].user.id_str;
+  			// console.log(data.statuses[0].user)
+
+  			//follow
+  			T.post('friendships/create', { id: usrId}, function (err, data, response) {
+  				if(response){console.log('followed successfully')};
+  				if(err){console.log(err)};
+			})
+  		}
+	})
+}
 
 
+//UNLEASH THE BOT
+const random_activity = () =>{
+	//Choose topics randomly
+	const topics = ['#100DaysOfCode','#IOT','#DataScience','#MachineLearning','#freecodecamp','#Reactjs','#301daysofcode','#cssgrid','#CSS3'];
+	const random_topic = topics[Math.floor(Math.random() * topics.length)];
+	console.log(random_topic);
 
+	// call all functions
+	retweet(random_topic);
+	favorite(random_topic);
+	follow(random_topic);
+}
 
-
-//call all functions
-// retweet('#100DaysOfCode');
-favorite('#IOT');
-
-//choose a random topic and follow,retweet and like it in set intervals
+setInterval(random_activity,1.08e7);
